@@ -34,11 +34,7 @@ class TrackList extends React.Component {
   render () {
     return (
       <div className='TrackList'>
-        <Track />
-        <Track />
-        <Track />
-        <Track />
-        <Track />
+        {tracks.map(track => <Track info={track} />)}
       </div>
     )
   }
