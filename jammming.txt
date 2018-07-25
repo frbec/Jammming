@@ -1,0 +1,16 @@
+App structure:
+
+src/
+  App.js -- main app renders components.
+  components/ -- all components
+    playlist/ -- renders list of added songs and allows for removing.
+    results-list/ -- renders songs returned from search bar and allows for adding to playlist.
+    search-bar/ -- takes user input and queries spotify API, returns array of song objects.
+    song/ -- item returned form search that will render title, album and artist.
+  util/
+    spotify.js -- spotify API methods.
+public/
+  favicon.ico
+  index.html -- head structure and css reset + font imports.
+  manifest.json
+  reset.css -- css reset.
