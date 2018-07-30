@@ -1,34 +1,35 @@
 import React from 'react'
+import TrackList from '../track-list/track-list'
 import './playlist.css'
 
 class Playlist extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      name: 'New Playlist',
+      savedTracks: []
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.addTrack = this.addTrack.bind(this)
+  }
+
+  handleChange (e) {
+    this.setState({ name: e.target.value })
+  }
+
+  addTrack (track) {
+    this.setState({ savedTracks: this.state.savedTracks.push(track) })
+  }
+
+  handleFocus (e) {
+    e.target.setSelectionRange(0, e.target.value.length)
+  }
+
   render () {
     return (
       <div className='Playlist'>
-        <input value='New Playlist' />
-        <div className='TrackList'>
-          <div className='Track'>
-            <div className='Track-information'>
-              <h3>Stronger</h3>
-              <p>Britney Spears | Oops!... I Did It Again</p>
-            </div>
-            <a className='Track-action'>-</a>
-          </div>
-          <div className='Track'>
-            <div className='Track-information'>
-              <h3>So Emotional</h3>
-              <p>Whitney Houston | Whitney</p>
-            </div>
-            <a className='Track-action'>-</a>
-          </div>
-          <div className='Track'>
-            <div className='Track-information'>
-              <h3>It's Not Right But It's Okay</h3>
-              <p>Whitney Houston | My Love Is Your Love</p>
-            </div>
-            <a className='Track-action'>-</a>
-          </div>
-        </div>
+        <input value={this.state.name} onChange={this.handleChange} onFocus={this.handleFocus} />
+        <TrackList tracks={this.state.savedTracks} />
         <a className='Playlist-save'>SAVE TO SPOTIFY</a>
       </div>
     )
