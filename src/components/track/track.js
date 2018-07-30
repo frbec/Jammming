@@ -1,5 +1,4 @@
 import React from 'react'
-import Playlist from '../playlist/playlist'
 import './track.css'
 
 class Track extends React.Component {
@@ -9,14 +8,7 @@ class Track extends React.Component {
   }
 
   handleClick (e) {
-    Playlist.addTrack(() => {
-      return {
-        title: this.props.info.name,
-        artist: this.props.info.artist,
-        album: this.props.info.album
-      }
-    })
-    e.preventDefault()
+    this.props.moveTrack(this.props.info)
   }
 
   render () {
@@ -26,7 +18,7 @@ class Track extends React.Component {
           <h3>{this.props.info.name}</h3>
           <p>{this.props.info.artists.join(', ')} | {this.props.info.album}</p>
         </div>
-        <a className='Track-action' onClick={this.handleClick}>+</a>
+        <a className='Track-action' onClick={this.handleClick}>{this.props.moveTrack.name === 'bound addTrack' ? '+' : '-'}</a>
       </div>
     )
   }

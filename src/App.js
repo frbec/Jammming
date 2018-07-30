@@ -36,11 +36,14 @@ class App extends Component {
           artists: ['Ben Folds'],
           album: 'Ben Folds Live'
         }
-      ]
+      ],
+      savedTracks: []
     }
 
     this.refreshResults = this.refreshResults.bind(this)
     this.searchSpotify = this.searchSpotify.bind(this)
+    this.addTrack = this.addTrack.bind(this)
+    this.removeTrack = this.removeTrack.bind(this)
   }
 
   searchSpotify (term) {
@@ -56,7 +59,18 @@ class App extends Component {
   }
 
   addTrack (track) {
-    this.setState({ savedTracks: track })
+    let newState = this.state.savedTracks
+    newState.push(track)
+    this.setState({ savedTracks: newState })
+  }
+
+  removeTrack (track) {
+    let newState = this.state.savedTracks
+    const index = newState.indexOf(track)
+    if (index > -1) {
+      newState.splice(index, 1)
+    }
+    this.setState({ savedTracks: newState })
   }
 
   render () {
@@ -66,8 +80,8 @@ class App extends Component {
         <div className='App'>
           <SearchBar searchSpotify={this.searchSpotify} />
           <div className='App-playlist'>
-            <Results tracks={this.state.tracks} />
-            <Playlist onChange={this.addTrack} tracks={this.state.savedTracks} />
+            <Results moveTrack={this.addTrack} tracks={this.state.tracks} />
+            <Playlist moveTrack={this.removeTrack} tracks={this.state.savedTracks} />
           </div>
         </div>
       </div>
