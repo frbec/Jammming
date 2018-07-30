@@ -7,41 +7,64 @@ function encodeData (data) {
 }
 
 const Spotify = {
-  authorize (redirectUri) {
-    const uri = 'https://cors-anywhere.herokuapp.com/https://accounts.spotify.com/authorize'
-    const parameters = {
-      'client_id': process.env.REACT_APP_CLIENT_ID,
-      'response_type': 'token',
-      'redirect_uri': redirectUri,
-      'scope': 'playlist-modify-public'
-    }
-    const request = uri + '?' + encodeData(parameters)
-    return fetch(request, {
-      redirect: 'follow',
-      headers: {
-        'Access-Control-Allow-Origin': 'x-requested-with, x-requested-by'
-      }
-    }
-    )
-      .then(response => {
-        try {
-          if (response.ok) {
-            return response.text()
-          }
-          throw new Error('Request failed')
-        } catch (error) {
-          console.log(error)
-        }
-      }).then(text => {
-        let win = window.open('', 'Spotify', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=200')
-        console.log(text)
-        win.document.body.innerHTML = text
+  authUri: 'https://accounts.spotify.com/authorize',
+  parameters: {
+    'client_id': process.env.REACT_APP_CLIENT_ID,
+    'response_type': 'token',
+    'redirect_uri': 'http://localhost:3000/',
+    'scope': 'playlist-modify-public'
+  },
+  accessToken: '',
+  searchUri: 'https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/search',
+
+  authorize () {
+    if (this.accessToken !== '') {
+      // needs a cookie here to remember
+      return this.accessToken
+    } else if (window.location.hash) {
+      let hash = window.location.hash.substring(1).split('&')
+      hash = hash.map(item => {
+        item = item.split('=')
+        return item
       })
+      return hash[0][1]
+    } else {
+      window.location.href = this.authUri + '?' + encodeData(this.parameters)
+    }
   },
 
   search (term) {
-    // some API call
-    console.log(term)
+    return fetch(this.searchUri + '?q=' + encodeURIComponent(term) + '&type=track&limit=10', {
+      headers: {
+        'Authorization': 'Bearer ' + this.accessToken,
+        'Access-Control-Allow-Origin': 'x-requested-with'
+      }
+    })
+      .then(response => {
+        try {
+          if (response.ok) {
+            console.log(response.status)
+            return response.json()
+          }
+          throw new Error('Request failed!' + response.status + response.text)
+        } catch (error) {
+          console.log(error)
+        }
+      })
+      .then(json => {
+        if (json.tracks.items) {
+          return json.tracks.items.map(item => {
+            return {
+              id: item.id,
+              name: item.name,
+              artists: item.artists.map(artist => {
+                return artist.name
+              }),
+              album: item.album.name
+            }
+          })
+        }
+      })
   }
 }
 
