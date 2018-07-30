@@ -75,7 +75,7 @@ class App extends Component {
 
   render () {
     return (
-      <div className='App'>
+      <div className='Main'>
         <h1>Ja<span className='highlight'>mmm</span>ing</h1>
         <div className='App'>
           <SearchBar searchSpotify={this.searchSpotify} />
