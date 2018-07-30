@@ -5,8 +5,6 @@ import Playlist from './components/playlist/playlist'
 import Spotify from './util/spotify'
 import './App.css'
 
-const savedTracks = [{}]
-
 class App extends Component {
   constructor (props) {
     super(props)
@@ -38,8 +36,7 @@ class App extends Component {
           artists: ['Ben Folds'],
           album: 'Ben Folds Live'
         }
-      ],
-      savedTracks: []
+      ]
     }
 
     this.refreshResults = this.refreshResults.bind(this)
