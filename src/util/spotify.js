@@ -9,6 +9,7 @@ function encodeData (data) {
 
 const Spotify = {
   accessToken: '',
+  userId: '',
 
   authorize () {
     if (this.accessToken !== '') {
@@ -76,6 +77,11 @@ const Spotify = {
 
   // retrieve spotify user ID to create and populate playlists.
   fetchUserId () {
+    if (this.userId) {
+      return new Promise((resolve, reject) => {
+        resolve(this.userId)
+      })
+    }
     this.accessToken = this.authorize()
     return fetch('https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/me', {
       headers: {
@@ -94,7 +100,10 @@ const Spotify = {
         }
       })
       .then(user => {
-        if (user.id) return user.id
+        if (user.id) {
+          this.userId = user.id
+          return user.id
+        }
       })
   },
 
@@ -124,7 +133,9 @@ const Spotify = {
             }
           })
           .then(playlist => {
-            if (playlist.id) return playlist
+            if (playlist.id) {
+              return playlist
+            }
           })
       })
   },
@@ -160,7 +171,9 @@ const Spotify = {
             }
           })
           .then(playlistSnapshot => {
-            if (playlistSnapshot.snaphot_id) return playlistSnapshot
+            if (playlistSnapshot.snaphot_id) {
+              return playlistSnapshot
+            }
           })
       })
   }
