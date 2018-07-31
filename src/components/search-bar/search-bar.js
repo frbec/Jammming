@@ -15,7 +15,11 @@ class SearchBar extends React.Component {
   }
 
   handleSearch (e) {
-    this.props.searchSpotify(this.state.term)
+    if (this.state.term) {
+      this.props.searchSpotify(this.state.term)
+    } else {
+      console.log('You need to enter a search term')
+    }
     e.preventDefault()
   }
 
