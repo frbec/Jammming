@@ -32,13 +32,13 @@ class App extends Component {
   }
 
   addTrack (track) {
-    let newState = this.state.savedTracks
+    let newState = this.state.savedTracks.slice()
     newState.push(track)
     this.setState({ savedTracks: newState })
   }
 
   removeTrack (track) {
-    let newState = this.state.savedTracks
+    let newState = this.state.savedTracks.slice()
     const index = newState.indexOf(track)
     if (index > -1) {
       newState.splice(index, 1)
