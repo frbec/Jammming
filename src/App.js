@@ -47,7 +47,6 @@ class App extends Component {
   }
 
   searchSpotify (term) {
-    Spotify.accessToken = Spotify.authorize()
     Spotify.search(term)
       .then(results => {
         this.refreshResults(results)
