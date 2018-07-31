@@ -10,33 +10,7 @@ class App extends Component {
     super(props)
     this.state = {
       term: '',
-      tracks: [
-        {
-          name: 'Tiny Dancer',
-          artists: ['Elton John'],
-          album: 'Madman Across the Water'
-        },
-        {
-          name: 'Tiny Dancer',
-          artists: ['Tim McGraw'],
-          album: 'Love Story'
-        },
-        {
-          name: 'Tiny Dancer',
-          artists: ['Rockabye Baby!'],
-          album: 'Lullaby Renditions of Elton John'
-        },
-        {
-          name: 'Tiny Dancer',
-          artists: ['The White Raven'],
-          album: 'Tiny Dancer'
-        },
-        {
-          name: 'Tiny Dancer - Live Album Version',
-          artists: ['Ben Folds'],
-          album: 'Ben Folds Live'
-        }
-      ],
+      tracks: [],
       savedTracks: []
     }
 
